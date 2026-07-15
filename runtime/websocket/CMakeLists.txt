@@ -119,6 +119,13 @@ if(ENABLE_GLOG)
     set(BUILD_TESTING OFF)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/glog glog)
     include_directories(${glog_BINARY_DIR})
+    if(WIN32)
+        install(TARGETS glog
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION bin
+            ARCHIVE DESTINATION lib
+        )
+    endif()
 
 endif()
 
@@ -127,14 +134,21 @@ if(ENABLE_FST)
     include_directories(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/gflags)
     add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/gflags gflags)
     include_directories(${gflags_BINARY_DIR}/include)
-      
+    if(WIN32)
+        install(TARGETS gflags_nothreads_shared
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION bin
+            ARCHIVE DESTINATION lib
+        )
+    endif()
+
     # the following openfst if cloned from https://github.com/kkm000/openfst.git
-    # with some patch to fix the make errors. 
+    # with some patch to fix the make errors.
     add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/openfst openfst)
     include_directories(${openfst_SOURCE_DIR}/src/include)
     if(WIN32)
     include_directories(${openfst_SOURCE_DIR}/src/lib)
-    endif() 
+    endif()
 endif()
 
 
@@ -148,8 +162,24 @@ include_directories(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party)
 include_directories(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/kaldi)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/yaml-cpp yaml-cpp)
+if(WIN32)
+    install(TARGETS yaml-cpp
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION bin
+        ARCHIVE DESTINATION lib
+    )
+endif()
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/kaldi-native-fbank/kaldi-native-fbank/csrc csrc)
 add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/src src)
+if(WIN32)
+    install(TARGETS funasr
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION bin
+        ARCHIVE DESTINATION lib
+    )
+endif()
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/kaldi kaldi)
 
 # install openssl first apt-get install libssl-dev
@@ -164,3 +194,8 @@ foreach(include ${includes})
 endforeach()
 
 add_subdirectory(bin)
+
+# Install hotwords.txt
+install(FILES ${CMAKE_SOURCE_DIR}/hotwords.txt
+    DESTINATION bin
+)

@@ -41,17 +41,17 @@ int main(int argc, char* argv[]) {
     TCLAP::ValueArg<std::string> download_model_dir(
         "", "download-model-dir",
         "Download model from Modelscope to download_model_dir", false,
-        "/workspace/models", "string");
+        "../models", "string");
     TCLAP::ValueArg<std::string> offline_model_dir(
         "", OFFLINE_MODEL_DIR,
         "default: damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-onnx, the asr model path, which "
         "contains model_quant.onnx, config.yaml, am.mvn",
-        false, "damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-onnx", "string");
+        false, "iic/speech_paraformer-large-contextual_asr_nat-zh-cn-16k-common-vocab8404-onnx", "string");
     TCLAP::ValueArg<std::string> online_model_dir(
         "", ONLINE_MODEL_DIR,
         "default: damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx, the asr model path, which "
         "contains model_quant.onnx, config.yaml, am.mvn",
-        false, "damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx", "string");
+        false, "iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx", "string");
 
     TCLAP::ValueArg<std::string> offline_model_revision(
         "", "offline-model-revision", "ASR offline model revision", false,
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
         "", VAD_DIR,
         "default: damo/speech_fsmn_vad_zh-cn-16k-common-onnx, the vad model path, which contains "
         "model_quant.onnx, vad.yaml, vad.mvn",
-        false, "damo/speech_fsmn_vad_zh-cn-16k-common-onnx", "string");
+        false, "iic/speech_fsmn_vad_zh-cn-16k-common-onnx", "string");
     TCLAP::ValueArg<std::string> vad_revision(
         "", "vad-revision", "VAD model revision", false, "v2.0.4", "string");
     TCLAP::ValueArg<std::string> vad_quant(
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
         "", PUNC_DIR,
         "default: damo/punc_ct-transformer_zh-cn-common-vad_realtime-vocab272727-onnx, the punc model path, which contains "
         "model_quant.onnx, punc.yaml",
-        false, "damo/punc_ct-transformer_zh-cn-common-vad_realtime-vocab272727-onnx", "string");
+        false, "iic/punc_ct-transformer_zh-cn-common-vad_realtime-vocab272727-onnx", "string");
     TCLAP::ValueArg<std::string> punc_revision(
         "", "punc-revision", "PUNC model revision", false, "v2.0.5", "string");
     TCLAP::ValueArg<std::string> punc_quant(
@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 
     TCLAP::ValueArg<std::string> listen_ip("", "listen-ip", "listen ip", false,
                                            "0.0.0.0", "string");
-    TCLAP::ValueArg<int> port("", "port", "port", false, 10095, "int");
+    TCLAP::ValueArg<int> port("", "port", "port", false, 10096, "int");
     TCLAP::ValueArg<int> io_thread_num("", "io-thread-num", "io thread num",
                                        false, 2, "int");
     TCLAP::ValueArg<int> decoder_thread_num(
@@ -114,24 +114,24 @@ int main(int argc, char* argv[]) {
         "", "certfile",
         "default: ../../../ssl_key/server.crt, path of certficate for WSS "
         "connection. if it is empty, it will be in WS mode.",
-        false, "../../../ssl_key/server.crt", "string");
+        false, "", "string");
     TCLAP::ValueArg<std::string> keyfile(
         "", "keyfile",
         "default: ../../../ssl_key/server.key, path of keyfile for WSS "
         "connection",
-        false, "../../../ssl_key/server.key", "string");
+        false, "", "string");
 
     TCLAP::ValueArg<float>    global_beam("", GLOB_BEAM, "the decoding beam for beam searching ", false, 3.0, "float");
     TCLAP::ValueArg<float>    lattice_beam("", LAT_BEAM, "the lattice generation beam for beam searching ", false, 3.0, "float");
     TCLAP::ValueArg<float>    am_scale("", AM_SCALE, "the acoustic scale for beam searching ", false, 10.0, "float");
 
     TCLAP::ValueArg<std::string> lm_dir("", LM_DIR,
-        "the LM model path, which contains compiled models: TLG.fst, config.yaml ", false, "damo/speech_ngram_lm_zh-cn-ai-wesp-fst", "string");
+        "the LM model path, which contains compiled models: TLG.fst, config.yaml ", false, "iic/speech_ngram_lm_zh-cn-ai-wesp-fst", "string");
     TCLAP::ValueArg<std::string> lm_revision(
         "", "lm-revision", "LM model revision", false, "v1.0.2", "string");
     TCLAP::ValueArg<std::string> hotword("", HOTWORD,
-        "the hotword file, one hotword perline, Format: Hotword Weight (could be: 阿里巴巴 20)", 
-        false, "/workspace/resources/hotwords.txt", "string");
+        "the hotword file, one hotword perline, Format: Hotword Weight (could be: 阿里巴巴 20)",
+        false, "hotwords.txt", "string");
     TCLAP::ValueArg<std::int32_t> fst_inc_wts("", FST_INC_WTS, 
         "the fst hotwords incremental bias", false, 20, "int32_t");
 

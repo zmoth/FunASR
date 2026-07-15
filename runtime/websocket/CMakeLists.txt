@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(FunASRWebscoket) 
 
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path" FORCE)
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -12,6 +13,12 @@ option(ENABLE_GLOG "Whether to build glog" ON)
 option(ENABLE_FST "Whether to build openfst" ON) # ITN need openfst compiled
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(GPU "Whether to build with GPU" OFF)
+
+include(FetchContent)
+
+include(${CMAKE_SOURCE_DIR}/cmake/SetupONNXRuntime.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/SetupFFmpeg.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/SetupOpenSSL.cmake)
 
 if(WIN32)
   file(REMOVE ${PROJECT_SOURCE_DIR}/../onnxruntime/third_party/glog/src/config.h 
